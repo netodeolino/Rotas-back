@@ -8,6 +8,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import br.deolino.model.Permissao;
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -25,7 +27,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     	
         http.authorizeRequests()
         		.antMatchers("/images/**", "/usuario/login").permitAll()
-        		.antMatchers("/**").authenticated()
+        		.antMatchers("/**").hasAuthority(Permissao.ADM.getAuthority())
         		.and()
                 .addFilterBefore(service, UsernamePasswordAuthenticationFilter.class);
     }

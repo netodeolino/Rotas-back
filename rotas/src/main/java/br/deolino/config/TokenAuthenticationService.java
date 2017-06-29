@@ -1,7 +1,9 @@
 package br.deolino.config;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +17,8 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+
+import br.deolino.model.Permissao;
 
 @Service
 public class TokenAuthenticationService {
@@ -39,6 +43,7 @@ public class TokenAuthenticationService {
 
 	public Authentication getAuthentication(HttpServletRequest request) throws ServletException {
 		String token = request.getHeader(HEADER_STRING);
+		List<Permissao> lista = new ArrayList<>();
 		if (token != null) {
 			Algorithm algorithm;
 			try {
@@ -54,12 +59,14 @@ public class TokenAuthenticationService {
 
 				String user = jwt.getSubject();
 
-				if(user!=null)
-					return new UsernamePasswordAuthenticationToken(user, null, null);
+				if(user!=null){
+					lista.add(Permissao.ADM);
+					return new UsernamePasswordAuthenticationToken(user, null, lista);
+				}
 			} catch (Exception e) {
 
 			}
 		}
-		throw new ServletException();
+		return new UsernamePasswordAuthenticationToken(null, null, lista);
 	}
 }
