@@ -27,7 +27,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     	
         http.authorizeRequests()
         		.antMatchers("/images/**", "/usuario/login").permitAll()
-        		.antMatchers("/**").hasAuthority(Permissao.ADM.getAuthority())
+        		.antMatchers("/**").hasAnyAuthority(Permissao.ADM.getAuthority())
         		.and()
                 .addFilterBefore(service, UsernamePasswordAuthenticationFilter.class);
     }

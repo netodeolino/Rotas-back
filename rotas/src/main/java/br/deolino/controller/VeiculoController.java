@@ -9,38 +9,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.deolino.model.Rota;
-import br.deolino.service.RotaService;
+import br.deolino.model.Veiculo;
+import br.deolino.service.VeiculoService;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping(value="/rotas")
-public class RotaController {
+@RequestMapping(value="/veiculo")
+public class VeiculoController {
 
 	@Autowired
-	private RotaService rotaService;
+	VeiculoService veiculoService;
 	
 	@RequestMapping(value = "/salvar", method = RequestMethod.POST)
-	public String salvar(@RequestBody Rota rota){
-		rotaService.salvar(rota);
-		return "sucesso";
-	}
-	
-	@RequestMapping(value = "/remover", method = RequestMethod.POST)
-	public String remover(@RequestBody Rota rota){
-		rotaService.remover(rota);
-		return "sucesso";
-	}
-	
-	@RequestMapping(value = "/atualizar", method = RequestMethod.POST)
-	public String atualizar(@RequestBody Rota rota){
-		rotaService.atualizar(rota);
+	public String salvar(@RequestBody Veiculo veiculo){
+		veiculoService.salvar(veiculo);
 		return "sucesso";
 	}
 	
 	@RequestMapping(value = "/listar", method = RequestMethod.GET)
-	public List<Rota> listar(){
-		return rotaService.listar();
+	public List<Veiculo> listar(){
+		return veiculoService.listar();
 	}
-	
 }

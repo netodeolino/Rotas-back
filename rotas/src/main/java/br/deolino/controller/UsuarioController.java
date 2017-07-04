@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import br.deolino.model.Usuario;
 import br.deolino.service.UsuarioService;
 
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping(value="/usuario")
-@CrossOrigin(origins = "*", maxAge = 3600)
 public class UsuarioController {
 
 	@Autowired

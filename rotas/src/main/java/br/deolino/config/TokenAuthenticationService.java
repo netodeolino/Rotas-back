@@ -8,10 +8,10 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -20,6 +20,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 
 import br.deolino.model.Permissao;
 
+@CrossOrigin(origins = "*", maxAge = 3600)
 @Service
 public class TokenAuthenticationService {
 
@@ -43,7 +44,7 @@ public class TokenAuthenticationService {
 
 	public Authentication getAuthentication(HttpServletRequest request) throws ServletException {
 		String token = request.getHeader(HEADER_STRING);
-		List<Permissao> lista = new ArrayList<>();
+		List<Permissao> lista = new ArrayList<Permissao>();
 		if (token != null) {
 			Algorithm algorithm;
 			try {
@@ -58,7 +59,7 @@ public class TokenAuthenticationService {
 				DecodedJWT jwt = verifier.verify(token.replace(TOKEN_PREFIX, ""));
 
 				String user = jwt.getSubject();
-
+				
 				if(user!=null){
 					lista.add(Permissao.ADM);
 					return new UsernamePasswordAuthenticationToken(user, null, lista);
